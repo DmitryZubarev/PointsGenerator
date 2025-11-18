@@ -1,3 +1,4 @@
+using Confluent.Kafka;
 using PointsGenerator.Models;
 
 namespace PointsGenerator
@@ -23,11 +24,18 @@ namespace PointsGenerator
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            var kafkaConfig = new ProducerConfig { BootstrapServers = "localhost:9092" };
+            using var producer = new ProducerBuilder<Null, string>(kafkaConfig).Build();
+            
             while (!stoppingToken.IsCancellationRequested)
             {
-                var message = GenerateMessage();
+                var result = await producer.ProduceAsync(
+                "test-topic",
+                new Message<Null, string> { Value = "Минимальное сообщение в Kafka!" });
+                _logger.LogInformation($"Отправлено! Partition: {result.Partition}, Offset: {result.Offset}");
+                //var message = GenerateMessage();
                 
-                _logger.LogInformation(message.ToString());
+                //_logger.LogInformation(message.ToString());
 
                 await Task.Delay(3000, stoppingToken);
             }

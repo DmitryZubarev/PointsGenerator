@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36429.23 d17.14
+VisualStudioVersion = 17.14.36429.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointsGenerator", "PointsGenerator\PointsGenerator.csproj", "{ECDDCC86-CFB5-40FF-9BBE-847C46B528FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Kafka", "Infrastructure.Kafka\Infrastructure.Kafka.csproj", "{8A15A29F-0E00-4C49-A1ED-21A767EE8E79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{2882F27B-523A-4501-AEC2-C03C87F20E1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{ECDDCC86-CFB5-40FF-9BBE-847C46B528FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECDDCC86-CFB5-40FF-9BBE-847C46B528FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECDDCC86-CFB5-40FF-9BBE-847C46B528FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A15A29F-0E00-4C49-A1ED-21A767EE8E79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A15A29F-0E00-4C49-A1ED-21A767EE8E79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A15A29F-0E00-4C49-A1ED-21A767EE8E79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A15A29F-0E00-4C49-A1ED-21A767EE8E79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2882F27B-523A-4501-AEC2-C03C87F20E1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2882F27B-523A-4501-AEC2-C03C87F20E1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2882F27B-523A-4501-AEC2-C03C87F20E1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2882F27B-523A-4501-AEC2-C03C87F20E1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
