@@ -1,5 +1,5 @@
-using Confluent.Kafka;
-using PointsGenerator.Models;
+using Domain.Models;
+
 
 namespace PointsGenerator
 {
@@ -24,18 +24,11 @@ namespace PointsGenerator
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var kafkaConfig = new ProducerConfig { BootstrapServers = "localhost:9092" };
-            using var producer = new ProducerBuilder<Null, string>(kafkaConfig).Build();
-            
             while (!stoppingToken.IsCancellationRequested)
             {
-                var result = await producer.ProduceAsync(
-                "test-topic",
-                new Message<Null, string> { Value = "Минимальное сообщение в Kafka!" });
-                _logger.LogInformation($"Отправлено! Partition: {result.Partition}, Offset: {result.Offset}");
-                //var message = GenerateMessage();
+                var message = GenerateMessage();
                 
-                //_logger.LogInformation(message.ToString());
+                _logger.LogInformation(message.BrigadeCode.ToString() + " " + message.SerialNumber);
 
                 await Task.Delay(3000, stoppingToken);
             }
@@ -54,7 +47,11 @@ namespace PointsGenerator
             for (int i = 0; i < channelCount; i++)
             {
                 var channel = _channels[i];
-                var newChannel = channel.Clone();
+                var newChannel = new Channel
+                {
+                    Type = channel.Type,
+                    NumSuffix = channel.NumSuffix,
+                };
                 newChannel.Value = _random.NextDouble() * 10;
                 message.Channels.Add(newChannel);
             }

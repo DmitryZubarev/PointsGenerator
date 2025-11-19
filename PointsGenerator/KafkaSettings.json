@@ -1,29 +1,8 @@
 {
-  "Kafka": {
-    "BootstrapServers": "localhost:9092",
-    "Topic": "objects-topic",
-    "ClientId": "object-generator",
-
-    "ProducerSettings": {
-      "Acks": "All",
-      "MessageSendMaxRetries": 3,
-      "RetryBackoffMs": 1000,
-      "LingerMs": 5,
-      "BatchSize": 32768,
-      "EnableIdempotence": true,
-      "CompressionType": "Snappy"
+  "KafkaConfig": {
+    "ProducerConfig": {
+      "BootstrapServers": "localhost:9092"
     },
-
-    "ConsumerSettings": {
-      "GroupId": "object-processor-group",
-      "AutoOffsetReset": "Earliest",
-      "EnableAutoCommit": false,
-      "StatisticsIntervalMs": 5000
-    },
-
-    "SchemaRegistry": {
-      "Url": "http://localhost:8081",
-      "BasicAuthUserInfo": ""
-    }
+    "Topic": "Points"
   }
 }

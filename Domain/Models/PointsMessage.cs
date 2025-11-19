@@ -9,6 +9,6 @@ namespace Domain.Models
         public string SerialNumber { get; set; }
         public DateTime Timestamp { get; set; }
 
-        public Channel[] Channels { get; set; }
+        public List<Channel> Channels { get; set; }
     }
 }
