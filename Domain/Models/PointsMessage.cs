@@ -8,7 +8,6 @@ namespace Domain.Models
         public int BrigadeCode { get; set; }
         public string SerialNumber { get; set; }
         public DateTime Timestamp { get; set; }
-
-        public List<Channel> Channels { get; set; }
+        public List<Channel> Channels { get; set; } = new();
     }
 }

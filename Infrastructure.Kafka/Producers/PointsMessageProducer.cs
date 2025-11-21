@@ -3,28 +3,22 @@ using Domain.Interfaces.Kafka;
 using Domain.Models;
 using Domain.Options;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 
 namespace Infrastructure.Kafka.Producers
 {
     public class PointsMessageProducer : IBaseProducer<string, PointsMessage>
     {
-        private readonly string _topic;
-        private readonly ProducerConfig _producerConfig;
         private readonly IProducer<string, PointsMessage> _producer;
+        private const string Topic = "points";
 
 
-        public PointsMessageProducer(
-            IOptions<KafkaOptions> config,
-            IProducer<string, PointsMessage> producer)
+        public PointsMessageProducer()
         {
-            _producer = producer;
-
-            //Здесь нужно достать конфиг из конфигурации и смапить с конфигом кафки
-            _producerConfig = new ProducerConfig() { BootstrapServers = "localhost:9092" };/*config.Value.ProducerConfig*/;
-            _topic = config.Value.Topic;
-
-            _producer = new ProducerBuilder<string, PointsMessage>(_producerConfig)
+            var config = new ProducerConfig() { BootstrapServers = "localhost:9092" };
+            _producer = new ProducerBuilder<string, PointsMessage>(config)
+                .SetValueSerializer(new PointsMessageSerializer())
                 .Build();
         }
 
@@ -36,13 +30,20 @@ namespace Infrastructure.Kafka.Producers
 
         public async Task ProduceAsync(PointsMessage message)
         {
-            await _producer.ProduceAsync(
-                _topic,
+            await _producer.ProduceAsync(Topic,
                 new Message<string, PointsMessage>
                 {
                     Key = message.SerialNumber,
                     Value = message
                 });
+        }
+
+        public class PointsMessageSerializer : ISerializer<PointsMessage>
+        {
+            public byte[] Serialize(PointsMessage data, SerializationContext context)
+            {
+                return JsonSerializer.SerializeToUtf8Bytes(data);
+            }
         }
     }
 }

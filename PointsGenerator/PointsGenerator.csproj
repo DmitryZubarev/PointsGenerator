@@ -17,5 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure.Kafka\Infrastructure.Kafka.csproj" />
   </ItemGroup>
 </Project>

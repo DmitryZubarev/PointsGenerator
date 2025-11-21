@@ -3,6 +3,6 @@
     "ProducerConfig": {
       "BootstrapServers": "localhost:9092"
     },
-    "Topic": "Points"
+    "Topic": "points"
   }
 }

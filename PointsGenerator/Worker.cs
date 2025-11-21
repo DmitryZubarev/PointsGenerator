@@ -1,4 +1,7 @@
+using Domain.Interfaces.Kafka;
 using Domain.Models;
+using Infrastructure.Kafka.Producers;
+using static Confluent.Kafka.ConfigPropertyNames;
 
 
 namespace PointsGenerator
@@ -6,6 +9,7 @@ namespace PointsGenerator
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
+        private readonly PointsMessageProducer _producer;
         private Random _random = new Random();
 
         private readonly List<int> _brigadeCodes = [1, 2, 3];
@@ -17,9 +21,10 @@ namespace PointsGenerator
             new Channel { Type = 2, NumSuffix = 2}
         ];
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger, PointsMessageProducer producer)
         {
             _logger = logger;
+            _producer = producer;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -27,7 +32,9 @@ namespace PointsGenerator
             while (!stoppingToken.IsCancellationRequested)
             {
                 var message = GenerateMessage();
-                
+
+                await _producer.ProduceAsync(message);
+
                 _logger.LogInformation(message.BrigadeCode.ToString() + " " + message.SerialNumber);
 
                 await Task.Delay(3000, stoppingToken);
