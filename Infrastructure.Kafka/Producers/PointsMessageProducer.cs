@@ -2,6 +2,7 @@
 using Domain.Interfaces.Kafka;
 using Domain.Models;
 using Domain.Options;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
@@ -10,13 +11,15 @@ namespace Infrastructure.Kafka.Producers
 {
     public class PointsMessageProducer : IBaseProducer<string, PointsMessage>
     {
+        private readonly ILogger<PointsMessageProducer> _logger;
         private readonly IProducer<string, PointsMessage> _producer;
         private const string Topic = "points";
 
 
-        public PointsMessageProducer()
+        public PointsMessageProducer(ILogger<PointsMessageProducer> logger)
         {
-            var config = new ProducerConfig() { BootstrapServers = "localhost:9092" };
+            _logger = logger;
+            var config = new ProducerConfig() { BootstrapServers = "kafka:9092" };
             _producer = new ProducerBuilder<string, PointsMessage>(config)
                 .SetValueSerializer(new PointsMessageSerializer())
                 .Build();
@@ -30,12 +33,13 @@ namespace Infrastructure.Kafka.Producers
 
         public async Task ProduceAsync(PointsMessage message)
         {
-            await _producer.ProduceAsync(Topic,
+            var res = await _producer.ProduceAsync(Topic,
                 new Message<string, PointsMessage>
                 {
                     Key = message.SerialNumber,
                     Value = message
                 });
+            _logger.LogInformation(res.Status.ToString());
         }
 
         public class PointsMessageSerializer : ISerializer<PointsMessage>

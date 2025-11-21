@@ -35,7 +35,7 @@ namespace PointsGenerator
 
                 await _producer.ProduceAsync(message);
 
-                _logger.LogInformation(message.BrigadeCode.ToString() + " " + message.SerialNumber);
+                //_logger.LogInformation(message.BrigadeCode.ToString() + " " + message.SerialNumber);
 
                 await Task.Delay(3000, stoppingToken);
             }
